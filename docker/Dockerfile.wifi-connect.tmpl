@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.4
 # vim: ft=dockerfile
 
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -21,7 +20,7 @@ RUN if [[ ! -z "$ARCHIVE_URL" ]]; then \
     rm /tmp/wifi_connect.zip; fi
 
 COPY requirements/requirements.wifi-connect.txt /tmp/requirements.txt
-RUN \
+RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install -r /tmp/requirements.txt
 
 COPY send_zmq_message.py ./
