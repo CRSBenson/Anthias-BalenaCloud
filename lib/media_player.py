@@ -44,12 +44,11 @@ class VLCMediaPlayer(MediaPlayer):
         if lookup_raspberry_pi_version() == 'pi4':
             if settings['audio_output'] == 'local':
                 options += [
-                    '--alsa-audio-device=plughw:CARD=Headphones',
                 ]
 
             options += [
-                '--mmal-display=HDMI-2',
-                '--vout=mmal_vout',
+                '--no-osd',
+                '--no-audio',
             ]
 
         return options

@@ -70,9 +70,9 @@ browser_bus = None
 r = connect_to_redis()
 
 try:
-    media_player = OMXMediaPlayer()
+    # media_player = OMXMediaPlayer()
     # @TODO: Remove the line above and uncomment the line below once VLC playback issue is fixed.
-    # media_player = VLCMediaPlayer() if 'Raspberry Pi 4' in get_raspberry_model() else OMXMediaPlayer()
+    media_player = VLCMediaPlayer() if 'Raspberry Pi 4' in get_raspberry_model() else OMXMediaPlayer()
 except sh.ErrorReturnCode_1:
     media_player = OMXMediaPlayer()
 
@@ -366,16 +366,20 @@ def view_image(uri):
 
 def view_video(uri, duration):
     logging.debug('Displaying video %s for %s ', uri, duration)
-
     media_player.set_asset(uri, duration)
     media_player.play()
 
     view_image('null')
 
+
     try:
         while media_player.is_playing():
             watchdog()
             sleep(1)
+            sleep(1)
+            timeout += 1
+            if timeout > int(duration):
+                break
     except sh.ErrorReturnCode_1:
         logging.info('Resource URI is not correct, remote host is not responding or request was rejected.')
 
